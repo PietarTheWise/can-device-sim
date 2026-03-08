@@ -1,0 +1,48 @@
+# Build outputs
+/build/
+/bin/
+/out/
+/dist/
+
+# Compiled objects and libraries
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+
+# CMake / alternate build systems
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+compile_commands.json
+
+# Coverage and profiling artifacts
+*.gcda
+*.gcno
+*.gcov
+*.profraw
+*.profdata
+coverage/
+
+# Test output and logs
+*.log
+*.tmp
+*.temp
+
+# Editor / tooling caches
+.cache/
+.clangd/
+.idea/
+
+# VS Code local workspace state
+.vscode/*
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json
+
+# OS metadata
+.DS_Store
+Thumbs.db
