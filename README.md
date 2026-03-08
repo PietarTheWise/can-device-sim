@@ -8,6 +8,30 @@ It models:
 - bounded tick-based message processing over a shared `CanBus`
 - heartbeat watchdogs and coordinated safety shutdown behavior
 
+## How Image Classification Works
+
+The `VisionSensor` uses a lightweight rule-based classifier (no trained ML model) implemented in
+`src/vision_sensor.cpp`.
+
+Pipeline overview:
+- Load image as grayscale with `stb_image`, then downscale to max dimension 192 px for bounded cost.
+- Compute an adaptive brightness threshold from image mean and standard deviation.
+- Find the main bright connected component (candidate part) with flood-fill and bounding-box analysis.
+- Sample circular regions inside that box:
+  - center disc
+  - annulus (ring around center)
+- Derive hole-related features:
+  - center brightness vs annulus brightness (contrast)
+  - ratio of dark pixels in center
+  - dark-mass distribution/concentration
+- Combine those features with shape/aspect checks to decide:
+  - `Valid` (washer-like ring with center hole)
+  - `Invalid` (solid disc/non-washer)
+  - `Unknown` (insufficient/conflicting signal)
+
+The confidence-like `score` (0-100) is computed from these same features. In control flow,
+`Invalid` and `Unknown` are both treated as reject for downstream handling.
+
 ## Build And Test
 
 ```bash
